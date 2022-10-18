@@ -26,8 +26,9 @@ router.get('/api/users', async (req, res) => {
 });
 
 router.get('/api/users/:id', async (req, res) => {
+    let id = Number(Number(req.params.id))
     try {
-        res.json((await db.Users.oneUser(req.params.id))[0]);
+        res.json((await db.Users.oneUser(id))[0]);
     } catch(e) {
         console.log(e);
         res.sendStatus(500);
@@ -35,8 +36,9 @@ router.get('/api/users/:id', async (req, res) => {
 });
 
 router.get('/api/chirps/:id', async (req, res) => {
+    let id = Number(Number(req.params.id))
     try {
-        res.json((await db.Chirps.oneChirp(req.params.id))[0]);
+        res.json((await db.Chirps.oneChirp(id))[0]);
     } catch(e) {
         console.log(e);
         res.sendStatus(500);
@@ -44,8 +46,9 @@ router.get('/api/chirps/:id', async (req, res) => {
 });
 
 router.put('/api/users/:id', async (req, res) => {
+    let id = Number(Number(req.params.id))
     try {
-        res.json((await db.Users.updateUser(req.params.id, 'name', 'email', 'password'))[0]);
+        res.json((await db.Users.updateUser(id, 'name', 'email', 'password', Date.now()))[0]);
     } catch(e) {
         console.log(e);
         res.sendStatus(500);
@@ -53,41 +56,52 @@ router.put('/api/users/:id', async (req, res) => {
 });
 
 router.put('/api/chirps/:id', async (req, res) => {
+    let id = Number(req.params.id)
     try {
-        res.json((await db.Chirps.updateChirp(req.params.id, 'userid', 'content', 'location'))[0]);
+        res.json((await db.Chirps.updateChirp(id, 'userid', 'content', 'location', Date.now()))[0]);
     } catch(e) {
         console.log(e);
         res.sendStatus(500);
     }
 });
 
-router.put('/', async (req, res) => {
+router.post('/api/users/:id', async (req, res) => {
+    let id = Number(req.params.id)
     try {
-        res.json((await db.Users.createUser('name', 'email', 'password'))[0]);
+        res.json((await db.Users.createUser(id, 'name', 'email', 'password', Date.now()))[0]);
     } catch(e) {
         console.log(e);
         res.sendStatus(500);
     }
 });
 
-router.put('/', async (req, res) => {
+router.post('/api/chirps/:id', async (req, res) => {
+    let id = Number(req.params.id)
     try {
-        res.json((await db.Chirps.createChirp('userid', 'content', 'location'))[0]);
+        res.json((await db.Chirps.createChirp(id, 'userid', 'content', 'location', Date.now()))[0]);
     } catch(e) {
         console.log(e);
         res.sendStatus(500);
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/api/users/:id', async (req, res) => {
+    let id = Number(req.params.id)
     try {
-        res.json((await db.Users.deleteUser(req.params.id))[0]);
+        res.json((await db.Users.deleteUser(id))[0]);
+    } catch(e) {
+        console.log(e);
+        res.sendStatus(500);
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/api/chirps/:id', async (req, res) => {
+    let id = Number(req.params.id)
     try {
-        res.json((await db.Chirps.deleteChirp(req.params.id))[0]);
+        res.json((await db.Chirps.deleteChirp(id))[0]);
+    } catch(e) {
+        console.log(e);
+        res.sendStatus(500);
     }
 });
 
